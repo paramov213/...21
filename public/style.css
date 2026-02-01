@@ -1,24 +1,21 @@
 body {
   background:#0e0e11;
-  color:#fff;
+  color:white;
   font-family:Arial;
   display:flex;
   justify-content:center;
 }
 
-.hidden { display:none }
-
 #auth, #app {
-  width:360px;
-  margin-top:50px;
-  animation: fade 0.5s;
+  width:300px;
+  margin-top:60px;
 }
 
 input, button {
   width:100%;
-  margin:5px 0;
   padding:10px;
-  border-radius:10px;
+  margin:5px 0;
+  border-radius:8px;
   border:none;
 }
 
@@ -28,20 +25,14 @@ button {
   cursor:pointer;
 }
 
-.menu {
-  display:flex;
-  justify-content:space-between;
-}
-
 #messages {
   height:300px;
   overflow:auto;
   background:#16161d;
-  margin-bottom:10px;
   padding:10px;
+  margin-bottom:10px;
 }
 
-@keyframes fade {
-  from {opacity:0}
-  to {opacity:1}
+.hidden {
+  display:none;
 }
