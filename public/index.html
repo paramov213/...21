@@ -15,31 +15,9 @@
 </div>
 
 <div id="app" class="hidden">
-  <div class="menu">
-    <button onclick="show('chat')">Чат</button>
-    <button onclick="show('profile')">Профиль</button>
-    <button onclick="show('channels')">Каналы</button>
-  </div>
-
-  <div id="chat" class="page">
-    <div id="messages"></div>
-    <input id="msg">
-    <button onclick="send()">➤</button>
-  </div>
-
-  <div id="profile" class="page hidden">
-    <h2 id="nick"></h2>
-    <p>@<span id="user"></span></p>
-    <p>ID: <span id="uid"></span></p>
-    <div id="nfts"></div>
-  </div>
-
-  <div id="channels" class="page hidden">
-    <input id="cname" placeholder="Channel name">
-    <input id="cuser" placeholder="Channel username">
-    <button onclick="createChannel()">Создать</button>
-    <div id="channelList"></div>
-  </div>
+  <div id="messages"></div>
+  <input id="msg">
+  <button onclick="send()">Отправить</button>
 </div>
 
 <script src="/socket.io/socket.io.js"></script>
