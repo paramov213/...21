@@ -1,61 +1,49 @@
 const socket = io();
+
+const authBlock = document.getElementById("auth");
+const appBlock = document.getElementById("app");
+
+const loginInput = document.getElementById("login");
+const passwordInput = document.getElementById("password");
+
+const messages = document.getElementById("messages");
+const msg = document.getElementById("msg");
+
 let token = localStorage.getItem("token");
 
 if (token) init();
 
 function auth() {
   fetch("/api/auth", {
-    method:"POST",
-    headers:{ "Content-Type":"application/json" },
-    body:JSON.stringify({
-      username:login.value,
-      password:password.value
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      username: loginInput.value,
+      password: passwordInput.value
     })
   })
-  .then(r=>r.json())
-  .then(d=>{
+  .then(r => r.json())
+  .then(d => {
     token = d.token;
     localStorage.setItem("token", token);
     init();
-  });
+  })
+  .catch(() => alert("Ошибка входа"));
 }
 
 function init() {
-  auth.style.display="none";
-  app.classList.remove("hidden");
+  authBlock.style.display = "none";
+  appBlock.classList.remove("hidden");
   socket.emit("login", token);
 }
 
-socket.on("profile", u=>{
-  nick.innerText = u.nickname;
-  user.innerText = u.username;
-  uid.innerText = u.id || "-";
-  nfts.innerHTML = u.nft.map(n=>`<img src="${n}" width="40">`).join("");
-});
-
-socket.on("message", m=>{
-  messages.innerHTML += `<div><b>${m.from}:</b> ${m.text}</div>`;
-});
-
-socket.on("channels", c=>{
-  channelList.innerHTML = Object.values(c).map(ch=>
-    `<div>${ch.name} | 👁 ${ch.views} | ⭐ ${ch.subs}</div>`
-  ).join("");
-});
-
 function send() {
+  if (!msg.value) return;
   socket.emit("message", msg.value);
-  msg.value="";
+  msg.value = "";
 }
 
-function show(id){
-  document.querySelectorAll(".page").forEach(p=>p.classList.add("hidden"));
-  document.getElementById(id).classList.remove("hidden");
-}
-
-function createChannel(){
-  socket.emit("createChannel", {
-    name:cname.value,
-    username:cuser.value
-  });
-}
+socket.on("message", m => {
+  messages.innerHTML += `<div><b>${m.from}:</b> ${m.text}</div>`;
+  messages.scrollTop = messages.scrollHeight;
+});
